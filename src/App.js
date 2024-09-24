@@ -83,7 +83,7 @@ function App() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/shorten', {
+      const response = await axios.post('https://srfty.onrender.com/shorten', {
         originalUrl,
         userId: user.sub,
       });
@@ -98,7 +98,7 @@ function App() {
   };
 
   const handleRedirect = (shortUrl) => {
-    window.location.href = `http://localhost:5000/${shortUrl}`;
+    window.location.href = `https://srfty.onrender.com/${shortUrl}`;
   };
 
   const handleCopyToClipboard = (fullUrl) => {
@@ -108,10 +108,10 @@ function App() {
 
   const fetchUserUrls = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/urls/${userId}`);
+      const response = await axios.get(`https://srfty.onrender.com/urls/${userId}`);
       const mappedUrls = response.data.map((url) => ({
         ...url,
-        fullUrl: `http://localhost:5000/${url.shortUrl}`,
+        fullUrl: `https://srfty.onrender.com/${url.shortUrl}`,
       }));
       setUserUrls(mappedUrls);
     } catch (error) {
@@ -194,13 +194,13 @@ function App() {
                     <p>Shortened URL:</p>
                     <input
                       type="text"
-                      value={`http://localhost:5000/${shortUrl}`}
+                      value={`https://srfty.onrender.com/${shortUrl}`}
                       readOnly
                       className="border border-gray-300 rounded-md p-2 mb-2 w-full"
                     />
                     <button
                       onClick={() =>
-                        handleCopyToClipboard(`http://localhost:5000/${shortUrl}`)
+                        handleCopyToClipboard(`https://srfty.onrender.com/${shortUrl}`)
                       }
                       className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
                     >
