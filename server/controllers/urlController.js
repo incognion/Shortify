@@ -73,7 +73,8 @@ const redirectShortUrl = async (req, res) => {
         if (url) {
             res.redirect(url.originalUrl);
         } else {
-            res.status(404).json({ error: 'URL not found' });
+            res.redirect('https://shortifyplus.onrender.com/');
+            // res.status(404).json({ error: 'URL not found' });
         }
     } catch (err) {
         console.error('Error handling redirection:', err);

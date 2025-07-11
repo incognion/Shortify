@@ -20,13 +20,18 @@ app.use((req, res, next) => {
 // Register routes
 app.use(urlRoutes);
 
+// Redirect root backend URL to frontend
+app.get('/', (req, res) => {
+  res.redirect('https://shortifyplus.onrender.com/');
+});
+
 // Global error handler (best practice)
 app.use((err, req, res, next) => {
   console.error('Global error:', err);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
-// Connect to MongoDB and start server only if successful
+// Start the server and connect to MongoDB
 const port = process.env.PORT || 5000;
 (async () => {
   try {
