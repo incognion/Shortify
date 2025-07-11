@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import jwt_decode from 'jwt-decode';
-import { fetchUserUrls } from '../utils/apiUtils';
+import { fetchUserUrls } from '../utils/apiUtils.js';
 
 export const useAuth = (setNotification) => {
   const [user, setUser] = useState(null);

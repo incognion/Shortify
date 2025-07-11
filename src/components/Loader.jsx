@@ -1,17 +1,9 @@
-import React from 'react'
-import { FallingLines } from 'react-loader-spinner';
-
 const Loader = () => {
-    return (
-        <div className="flex justify-center items-center">
-            <FallingLines
-                color="#222"
-                width="80"
-                visible={true}
-                ariaLabel="falling-circles-loading"
-            />
-        </div>
-    )
-}
+  return (
+    <div className="flex items-center justify-center py-12">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+    </div>
+  );
+};
 
-export default Loader
+export default Loader;

@@ -1,65 +1,40 @@
-import React from 'react';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import jwt_decode from 'jwt-decode';
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
 
 const AuthHandler = ({
-    user,
-    setUser,
-    setUserUrls,
-    fetchUserUrls,
-    setNotification,
+  user,
+  setUser,
+  setUserUrls,
+  fetchUserUrls,
+  setNotification,
 }) => {
-    const handleCallbackResponse = (response) => {
-        const userObject = jwt_decode(response.credential);
-        setUser(userObject);
+  const handleCallbackResponse = (res) => {
+    const profile = jwt_decode(res.credential);
+    setUser(profile);
+    localStorage.setItem("userToken", res.credential);
+    localStorage.setItem("tokenExpiration", Date.now() + 24 * 60 * 60 * 1000);
+    fetchUserUrls(profile.sub, setUserUrls, setNotification);
+  };
 
-        localStorage.setItem('userToken', response.credential);
-        localStorage.setItem('tokenExpiration', Date.now() + 24 * 60 * 60 * 1000);
-
-        setTimeout(() => {
-            fetchUserUrls(userObject.sub, setUserUrls, setNotification);
-        }, 0);
-    };
-
-    const handleSignOut = () => {
-        setUser(null);
-        setUserUrls([]);
-        localStorage.removeItem('userToken');
-        localStorage.removeItem('tokenExpiration');
-        googleLogout();
-    };
-
-    return (
-        <>
-            <div className="flex justify-between items-center w-full max-w-xl mx-auto mb-4">
-                <div className="flex items-center">
-                    {user && (
-                        <>
-                            <img src={user.picture} alt={user.name} className="w-10 h-10 rounded-full mr-2" />
-                            <h1 className="text-xl font-semibold">{user.name}</h1>
-                        </>
-                    )}
-                </div>
-                {user && (
-                    <button
-                        onClick={handleSignOut}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    >
-                        Sign Out
-                    </button>
-                )}
-            </div>
-
-            <div className="mb-4">
-                {!user && (
-                    <GoogleLogin
-                        onSuccess={handleCallbackResponse}
-                        onError={() => setNotification({ type: 'error', message: 'Login Failed' })}
-                    />
-                )}
-            </div>
-        </>
-    );
+  return (
+    <div className="flex items-center justify-center">
+      {!user && (
+        <GoogleLogin
+          onSuccess={handleCallbackResponse}
+          onError={() =>
+            setNotification({
+              type: "error",
+              message: "Sign in failed. Please try again.",
+            })
+          }
+          text="signin_with"
+          shape="rectangular"
+          theme="outline"
+          width="280"
+        />
+      )}
+    </div>
+  );
 };
 
 export default AuthHandler;
