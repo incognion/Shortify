@@ -9,7 +9,15 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// Proper CORS configuration: allow only your frontend origin
+app.use(
+  cors({
+    origin: 'https://shortifyplus.onrender.com',
+    methods: ['GET', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 
 // Set COOP header for all responses
 app.use((req, res, next) => {
