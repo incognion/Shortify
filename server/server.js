@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: 'https://shortifyplus.onrender.com',
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
