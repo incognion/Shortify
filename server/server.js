@@ -7,10 +7,10 @@ import urlRoutes from './routes/urlRoutes.js';
 dotenv.config();
 const app = express();
 
-// Middleware
+// Middleware to parse JSON
 app.use(express.json());
 
-// Proper CORS configuration: allow only your frontend origin
+// Apply CORS middleware
 app.use(
   cors({
     origin: ['https://shortifyplus.onrender.com'],
@@ -19,7 +19,18 @@ app.use(
   })
 );
 
-// Set COOP header for all responses
+// Handle preflight OPTIONS requests
+app.options('*', cors());
+
+// Manual CORS headers as a fallback (ensure headers are always set)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://shortifyplus.onrender.com');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
+// Set COOP header for popup compatibility
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
   next();
@@ -33,7 +44,7 @@ app.get('/', (req, res) => {
   res.redirect('https://shortifyplus.onrender.com/');
 });
 
-// Global error handler (best practice)
+// Global error handler
 app.use((err, req, res, next) => {
   console.error('Global error:', err);
   res.status(500).json({ error: 'Internal Server Error' });

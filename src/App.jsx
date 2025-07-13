@@ -21,8 +21,7 @@ const App = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const { notification, setNotification } = useNotification();
-  const { user, setUser, userUrls, setUserUrls, loading } =
-    useAuth(setNotification);
+  const { user, setUser, userUrls, setUserUrls, loading } = useAuth(setNotification);
 
   // Reset to first page whenever URLs or itemsPerPage changes
   useEffect(() => {
