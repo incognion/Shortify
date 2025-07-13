@@ -1,8 +1,8 @@
 import { useState } from "react";
-import UrlInput from "./UrlInput";
+
+import LongUrl from "./LongUrl";
 import CustomUrlToggle from "./CustomUrlToggle";
 import CustomUrlInput from "./CustomUrlInput";
-import SubmitButton from "./SubmitButton";
 import ResultDisplay from "./ResultDisplay";
 
 const UrlForm = ({
@@ -46,15 +46,13 @@ const UrlForm = ({
   return (
     <div className="space-y-4">
       <form onSubmit={onSubmit} className="space-y-4">
-        {/* Main URL Input and Submit Button */}
-        <div className="flex space-x-2">
-          <UrlInput
-            value={originalUrl}
-            onChange={(e) => setOriginalUrl(e.target.value)}
-            disabled={isSubmitting}
-          />
-          <SubmitButton isSubmitting={isSubmitting} disabled={isFormDisabled} />
-        </div>
+        {/* Main Long URL Input and Submit Button */}
+        <LongUrl
+          urlValue={originalUrl}
+          onUrlChange={(e) => setOriginalUrl(e.target.value)}
+          isSubmitting={isSubmitting}
+          isFormDisabled={isFormDisabled}
+        />
 
         {/* Custom URL Toggle */}
         <CustomUrlToggle

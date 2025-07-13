@@ -55,23 +55,29 @@ const CustomUrlInput = ({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center space-x-2">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        {/* Base URL always on its own line on mobile, inline on desktop */}
         <span className="text-sm text-gray-500">{BASE_URL}/</span>
-        <input
-          type="text"
-          value={value}
-          onChange={onChange}
-          placeholder="your-custom-url"
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
-          minLength={3}
-          maxLength={20}
-          pattern="[a-zA-Z0-9_-]+"
-          disabled={disabled}
-        />
-        {isChecking && (
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600"></div>
-        )}
+        <div className="flex items-center gap-2 flex-1">
+          <input
+            type="text"
+            value={value}
+            onChange={onChange}
+            placeholder="your-custom-url"
+            className="min-w-[120px] w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+            minLength={3}
+            maxLength={20}
+            pattern="[a-zA-Z0-9_-]+"
+            disabled={disabled}
+          />
+          <div className="w-5 h-5 flex items-center justify-center">
+            {isChecking && (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-600"></div>
+            )}
+          </div>
+        </div>
       </div>
+
       {status && (
         <p
           className={`text-xs ${

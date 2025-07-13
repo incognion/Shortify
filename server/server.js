@@ -13,7 +13,7 @@ app.use(express.json());
 // Proper CORS configuration: allow only your frontend origin
 app.use(
   cors({
-    origin: 'https://shortifyplus.onrender.com',
+    origin: ['https://shortifyplus.onrender.com'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
   })
