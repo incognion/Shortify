@@ -36,6 +36,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health check route for uptime monitor
+app.get('/health', (req, res) => {
+  res.send('OK');
+});
+
 // Register routes
 app.use(urlRoutes);
 
