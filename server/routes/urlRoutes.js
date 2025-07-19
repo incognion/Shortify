@@ -12,7 +12,7 @@ router.get('/urls/:userId', urlController.getUserUrls);
 // Delete a specific short URL
 router.delete('/delete/:shortUrl', urlController.deleteShortUrl);
 
-// Check if custom short URL is available (optional - for real-time validation)
+// Check if custom short URL is available
 router.get('/check/:customShortUrl', urlController.checkCustomUrlAvailability);
 
 // Redirect short URL (should be last to avoid conflicts)
