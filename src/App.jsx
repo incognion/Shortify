@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import Header from "./components/Header";
-import UrlForm from "./components/UrlForm/UrlForm";
-import UrlList from "./components/UrlList/UrlList";
-import AuthHandler from "./components/AuthHandler";
-import Notification from "./components/Notification";
-import Loader from "./components/Loader";
+import Header from "./components/Header/Header";
+import FormContent from "./components/MainContent/FormContent";
+import UserUrlsSection from "./components/MainContent/UserUrlsSection";
+import AuthModal from "./components/Auth/AuthModal";
+import Notification from "./components/utils/Notification";
+import Loader from "./components/utils/Loader";
 
 import { useAuth } from "./hooks/useAuth";
 import { useNotification } from "./hooks/useNotification";
@@ -19,11 +19,11 @@ const App = () => {
   const [shortUrl, setShortUrl] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const { notification, setNotification } = useNotification();
   const { user, setUser, userUrls, setUserUrls, loading } = useAuth(setNotification);
 
-  // Reset to first page whenever URLs or itemsPerPage changes
   useEffect(() => {
     setCurrentPage(1);
   }, [userUrls, itemsPerPage]);
@@ -35,13 +35,15 @@ const App = () => {
       return;
     }
 
+    const effectiveUserId = user?.sub || 'anonymous';
+
     await shortenUrl(
       originalUrl,
-      user?.sub,
+      effectiveUserId,
       customUrl,
       setShortUrl,
       setNotification,
-      () => fetchUserUrls(user?.sub, setUserUrls, setNotification)
+      user ? () => fetchUserUrls(user?.sub, setUserUrls, setNotification) : null
     );
     setOriginalUrl("");
   };
@@ -52,15 +54,20 @@ const App = () => {
     );
   };
 
-  const handleRedirect = (slug) =>
-    (window.location.href = `${BASE_URL}/${slug}`);
+  const handleRedirect = (slug) => {
+    window.location.href = `${BASE_URL}/${slug}`;
+  };
 
-  const handleCopyToClipboard = (txt) =>
+  const handleCopyToClipboard = (txt) => {
     navigator.clipboard
       .writeText(txt)
       .then(() =>
         setNotification({ type: "success", message: "Copied to clipboard!" })
       );
+  };
+
+  const handleSignInClick = () => setShowAuthModal(true);
+  const handleCloseAuthModal = () => setShowAuthModal(false);
 
   // Pagination logic
   const indexOfLastUrl = currentPage * itemsPerPage;
@@ -70,103 +77,54 @@ const App = () => {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <div className="min-h-screen bg-gray-50">
-        <Header user={user} setUser={setUser} setUserUrls={setUserUrls} />
-        {/* Main Content */}
+        <Header 
+          user={user} 
+          setUser={setUser} 
+          setUserUrls={setUserUrls} 
+          onSignInClick={handleSignInClick}
+        />
+        
         <main className="max-w-2xl mx-auto px-4 py-8">
           {loading ? (
             <Loader />
           ) : (
-            <div className="space-y-8">
-              {/* Auth Section */}
-              {!user && (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-2">
-                    Welcome to Shortify
-                  </h2>
-                  <p className="text-gray-600 mb-6">
-                    Sign in to start creating and managing your short links
-                  </p>
-                  <AuthHandler
-                    user={user}
-                    setUser={setUser}
-                    setUserUrls={setUserUrls}
-                    fetchUserUrls={fetchUserUrls}
-                    setNotification={setNotification}
-                  />
-                </div>
-              )}
+            <>
+              <FormContent
+                user={user}
+                originalUrl={originalUrl}
+                setOriginalUrl={setOriginalUrl}
+                handleSubmit={handleSubmit}
+                shortUrl={shortUrl}
+                handleCopyToClipboard={handleCopyToClipboard}
+                onSignInClick={handleSignInClick}
+              />
 
-              {/* URL Form */}
-              {user && (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                    Create Short Link
-                  </h2>
-                  <UrlForm
-                    originalUrl={originalUrl}
-                    setOriginalUrl={setOriginalUrl}
-                    handleSubmit={handleSubmit}
-                    shortUrl={shortUrl}
-                    handleCopyToClipboard={handleCopyToClipboard}
-                  />
-                </div>
-              )}
-
-              {/* URL List */}
-              {user && (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">
-                    Your Links
-                  </h2>
-                  <div className="flex items-center gap-2 mb-2">
-                    <label
-                      htmlFor="itemsPerPage"
-                      className="text-sm text-gray-600"
-                    >
-                      Show:
-                    </label>
-                    <select
-                      id="itemsPerPage"
-                      value={itemsPerPage}
-                      onChange={(e) => {
-                        setItemsPerPage(Number(e.target.value));
-                        setCurrentPage(1);
-                      }}
-                      className="px-2 py-1 border border-gray-300 rounded text-sm"
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                    </select>
-                    <span className="text-sm text-gray-600">URLs per page</span>
-                  </div>
-                  <UrlList
-                    userUrls={currentUrls}
-                    handleRedirect={handleRedirect}
-                    handleCopyToClipboard={handleCopyToClipboard}
-                    handleDeleteUrl={handleDeleteUrl}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={setCurrentPage}
-                    totalCount={userUrls.length}
-                  />
-                </div>
-              )}
-
-              {/* Sign Out */}
-              {user && (
-                <div className="text-center">
-                  <AuthHandler
-                    user={user}
-                    setUser={setUser}
-                    setUserUrls={setUserUrls}
-                    fetchUserUrls={fetchUserUrls}
-                    setNotification={setNotification}
-                  />
-                </div>
-              )}
-            </div>
+              <UserUrlsSection
+                user={user}
+                userUrls={userUrls}
+                currentUrls={currentUrls}
+                handleRedirect={handleRedirect}
+                handleCopyToClipboard={handleCopyToClipboard}
+                handleDeleteUrl={handleDeleteUrl}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+                onPageChange={setCurrentPage}
+              />
+            </>
           )}
         </main>
+
+        <AuthModal
+          showAuthModal={showAuthModal}
+          onCloseAuthModal={handleCloseAuthModal}
+          user={user}
+          setUser={setUser}
+          setUserUrls={setUserUrls}
+          fetchUserUrls={fetchUserUrls}
+          setNotification={setNotification}
+        />
 
         <Notification
           notice={notification}

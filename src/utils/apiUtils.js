@@ -20,18 +20,34 @@ export const shortenUrl = async (originalUrl, userId, customShortUrl, setShortUr
   try {
     const payload = {
       originalUrl,
-      userId,
     };
-
-    // Add custom URL if provided
+    
+    // Only add userId if user is authenticated (not anonymous)
+    if (userId && userId !== 'anonymous') {
+      payload.userId = userId;
+    }
+    
+    // Add custom URL if provided (will be rejected for anonymous users on backend)
     if (customShortUrl && customShortUrl.trim()) {
       payload.customShortUrl = customShortUrl.trim();
     }
 
     const response = await axios.post(`${BASE_URL}/shorten`, payload);
     setShortUrl(response.data.shortUrl);
-    setNotification && setNotification({ type: 'success', message: 'URL shortened successfully!' });
-    refreshUrls && refreshUrls(userId);
+    
+    // Show different messages for anonymous vs authenticated users
+    if (response.data.isAnonymous) {
+      setNotification && setNotification({ 
+        type: 'success', 
+        message: 'URL shortened! Sign in to save and manage your links.' 
+      });
+    } else {
+      setNotification && setNotification({ 
+        type: 'success', 
+        message: 'URL shortened successfully!' 
+      });
+      refreshUrls && refreshUrls(userId);
+    }
   } catch (error) {
     console.error('Error shortening URL', error);
 

@@ -1,4 +1,4 @@
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const BottomControl = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex items-center justify-between mt-4">
       <button
@@ -22,4 +22,4 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-export default Pagination;
+export default BottomControl;

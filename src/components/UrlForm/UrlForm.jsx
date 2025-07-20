@@ -1,11 +1,13 @@
 import { useState } from "react";
 
+import WelcomeTexts from "./WelcomeTexts";
 import LongUrl from "./LongUrl";
 import CustomUrlToggle from "./CustomUrlToggle";
 import CustomUrlInput from "./CustomUrlInput";
 import ResultDisplay from "./ResultDisplay";
 
 const UrlForm = ({
+  user,
   originalUrl,
   setOriginalUrl,
   handleSubmit,
@@ -16,6 +18,8 @@ const UrlForm = ({
   const [useCustomUrl, setUseCustomUrl] = useState(false);
   const [customUrl, setCustomUrl] = useState("");
   const [customUrlStatus, setCustomUrlStatus] = useState("");
+
+  const isAnonymous = !user;
 
   const handleCustomUrlToggle = (e) => {
     const checked = e.target.checked;
@@ -44,7 +48,10 @@ const UrlForm = ({
     (customUrlStatus && !customUrlStatus.includes("Available"));
 
   return (
-    <div className="space-y-4">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+      {/* Anonymous User Info Banner */}
+      <WelcomeTexts user={user} />
+
       <form onSubmit={onSubmit} className="space-y-4">
         {/* Main Long URL Input and Submit Button */}
         <LongUrl
@@ -54,15 +61,17 @@ const UrlForm = ({
           isFormDisabled={isFormDisabled}
         />
 
-        {/* Custom URL Toggle */}
-        <CustomUrlToggle
-          checked={useCustomUrl}
-          onChange={handleCustomUrlToggle}
-          disabled={isSubmitting}
-        />
+        {/* Custom URL Toggle - Only for authenticated users */}
+        {!isAnonymous && (
+          <CustomUrlToggle
+            checked={useCustomUrl}
+            onChange={handleCustomUrlToggle}
+            disabled={isSubmitting}
+          />
+        )}
 
-        {/* Custom URL Input */}
-        {useCustomUrl && (
+        {/* Custom URL Input - Only for authenticated users */}
+        {!isAnonymous && useCustomUrl && (
           <CustomUrlInput
             value={customUrl}
             onChange={(e) => setCustomUrl(e.target.value)}
@@ -73,7 +82,11 @@ const UrlForm = ({
       </form>
 
       {/* Result Display */}
-      <ResultDisplay shortUrl={shortUrl} onCopy={handleCopyToClipboard} />
+      <ResultDisplay
+        shortUrl={shortUrl}
+        onCopy={handleCopyToClipboard}
+        isAnonymous={isAnonymous}
+      />
     </div>
   );
 };
