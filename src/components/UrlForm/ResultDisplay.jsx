@@ -4,7 +4,7 @@ const ResultDisplay = ({ shortUrl, onCopy }) => {
   if (!shortUrl) return null;
 
   return (
-    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 mt-4">
       <div className="flex items-center justify-between">
         <div className="flex-1 min-w-0">
           <p className="text-xs text-gray-500 mb-1">Your shortened URL:</p>

@@ -11,7 +11,7 @@ const FormContent = ({
   onSignInClick
 }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <UrlForm
         user={user}
         originalUrl={originalUrl}
