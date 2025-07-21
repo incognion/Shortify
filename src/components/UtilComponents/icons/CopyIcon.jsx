@@ -1,7 +1,7 @@
 const CopyIcon = () => {
   return (
     <svg
-      className="w-4 h-4"
+      className="w-5 h-5"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

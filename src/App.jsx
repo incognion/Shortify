@@ -82,7 +82,9 @@ const App = () => {
           user={user}
           setUser={setUser}
           setUserUrls={setUserUrls}
+          setShortUrl={setShortUrl}
           onSignInClick={handleSignInClick}
+          setNotification={setNotification}
         />
 
         <main className="max-w-2xl mx-auto px-4 py-6">
@@ -124,6 +126,7 @@ const App = () => {
           setUser={setUser}
           setUserUrls={setUserUrls}
           fetchUserUrls={fetchUserUrls}
+          setShortUrl={setShortUrl}
           setNotification={setNotification}
         />
 

@@ -6,6 +6,7 @@ const AuthHandler = ({
   setUser,
   setUserUrls,
   fetchUserUrls,
+  setShortUrl,
   setNotification,
   onSuccess,
 }) => {
@@ -15,7 +16,11 @@ const AuthHandler = ({
     localStorage.setItem("userToken", res.credential);
     localStorage.setItem("tokenExpiration", Date.now() + 24 * 60 * 60 * 1000);
     fetchUserUrls(profile.sub, setUserUrls, setNotification);
-
+    setShortUrl("");
+    // setNotification({
+    //   type: "success",
+    //   message: `Welcome, ${profile.name}!`,
+    // });
     if (onSuccess) {
       onSuccess();
     }

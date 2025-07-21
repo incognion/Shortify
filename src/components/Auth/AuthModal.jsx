@@ -8,6 +8,7 @@ const AuthModal = ({
   setUser,
   setUserUrls,
   fetchUserUrls,
+  setShortUrl,
   setNotification,
 }) => {
   if (!showAuthModal) return null;
@@ -22,6 +23,7 @@ const AuthModal = ({
           setUser={setUser}
           setUserUrls={setUserUrls}
           fetchUserUrls={fetchUserUrls}
+          setShortUrl={setShortUrl}
           setNotification={setNotification}
           onSuccess={onCloseAuthModal}
         />
