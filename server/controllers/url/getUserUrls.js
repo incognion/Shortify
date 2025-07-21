@@ -3,11 +3,11 @@ import Url from '../../models/urlModel.js';
 // Retrieve all URLs for a specific user
 const getUserUrls = async (req, res) => {
   const { userId } = req.params;
-  
+
   // Prevent access to anonymous URLs
   if (!userId || userId === 'anonymous') {
-    return res.status(401).json({ 
-      error: 'Authentication required to view URL history. Please sign in.' 
+    return res.status(401).json({
+      error: 'Authentication required to view URL history. Please sign in.'
     });
   }
 

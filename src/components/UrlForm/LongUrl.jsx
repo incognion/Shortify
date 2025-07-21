@@ -1,9 +1,4 @@
-const LongUrl = ({
-  urlValue,
-  onUrlChange,
-  isSubmitting,
-  isFormDisabled
-}) => {
+const LongUrl = ({ urlValue, onUrlChange, isSubmitting, isFormDisabled }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-3 sm:gap-2 w-full">
       {/* URL INPUT */}
@@ -29,7 +24,7 @@ const LongUrl = ({
                    disabled:opacity-50 disabled:cursor-not-allowed
                    text-sm font-medium transition-colors"
       >
-        {isSubmitting ? 'Creating…' : 'Shorten'}
+        {isSubmitting ? "Creating…" : "Shorten"}
       </button>
     </div>
   );

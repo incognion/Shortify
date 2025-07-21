@@ -11,14 +11,14 @@ const deleteShortUrl = async (req, res) => {
 
   // Prevent deletion of anonymous URLs
   if (userId === 'anonymous') {
-    return res.status(401).json({ 
-      error: 'Authentication required to delete URLs. Please sign in.' 
+    return res.status(401).json({
+      error: 'Authentication required to delete URLs. Please sign in.'
     });
   }
 
   try {
     const deletedUrl = await Url.findOneAndDelete({ shortUrl, userId });
-    
+
     if (!deletedUrl) {
       return res.status(404).json({
         error: 'URL not found or you do not have permission to delete it'

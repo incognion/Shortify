@@ -5,8 +5,8 @@ import Header from "./components/Header/Header";
 import FormContent from "./components/MainContent/FormContent";
 import UserUrlsSection from "./components/MainContent/UserUrlsSection";
 import AuthModal from "./components/Auth/AuthModal";
-import Notification from "./components/utils/Notification";
-import Loader from "./components/utils/Loader";
+import Notification from "./components/UtilComponents/Notification";
+import Loader from "./components/UtilComponents/Loader";
 
 import { useAuth } from "./hooks/useAuth";
 import { useNotification } from "./hooks/useNotification";
@@ -22,7 +22,8 @@ const App = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const { notification, setNotification } = useNotification();
-  const { user, setUser, userUrls, setUserUrls, loading } = useAuth(setNotification);
+  const { user, setUser, userUrls, setUserUrls, loading } =
+    useAuth(setNotification);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -35,7 +36,7 @@ const App = () => {
       return;
     }
 
-    const effectiveUserId = user?.sub || 'anonymous';
+    const effectiveUserId = user?.sub || "anonymous";
 
     await shortenUrl(
       originalUrl,
@@ -77,13 +78,13 @@ const App = () => {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <div className="min-h-screen bg-gray-50">
-        <Header 
-          user={user} 
-          setUser={setUser} 
-          setUserUrls={setUserUrls} 
+        <Header
+          user={user}
+          setUser={setUser}
+          setUserUrls={setUserUrls}
           onSignInClick={handleSignInClick}
         />
-        
+
         <main className="max-w-2xl mx-auto px-4 py-6">
           {loading ? (
             <Loader />

@@ -1,5 +1,5 @@
-import KeyIcon from "../utils/icons/KeyIcon";
-import UserPlusIcon from "../utils/icons/UserPlusIcon";
+import KeyIcon from "../UtilComponents/icons/KeyIcon";
+import UserPlusIcon from "../UtilComponents/icons/UserPlusIcon";
 
 const AnonymousUserInfo = ({ isAnonymous, onSignInClick }) => {
   if (!isAnonymous) return null;
@@ -23,7 +23,7 @@ const AnonymousUserInfo = ({ isAnonymous, onSignInClick }) => {
 
         <button
           onClick={onSignInClick}
-          className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg border border-indigo-600 hover:bg-white hover:text-indigo-600 focus:bg-white focus:text-indigo-600 transition-colors duration-400 focus:outline-none"
         >
           <UserPlusIcon />
           Sign In to Get Started

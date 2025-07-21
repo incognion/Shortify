@@ -8,7 +8,7 @@ const AuthModal = ({
   setUser,
   setUserUrls,
   fetchUserUrls,
-  setNotification
+  setNotification,
 }) => {
   if (!showAuthModal) return null;
 
@@ -16,7 +16,7 @@ const AuthModal = ({
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-4">
         <AuthTexts onCloseAuthModal={onCloseAuthModal} />
-        
+
         <AuthHandler
           user={user}
           setUser={setUser}

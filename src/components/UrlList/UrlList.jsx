@@ -7,7 +7,7 @@ const UrlList = ({
   userUrls,
   handleRedirect,
   handleCopyToClipboard,
-  handleDeleteUrl
+  handleDeleteUrl,
 }) => {
   const [deletingUrls, setDeletingUrls] = useState(new Set());
   const [confirmingDelete, setConfirmingDelete] = useState(null);

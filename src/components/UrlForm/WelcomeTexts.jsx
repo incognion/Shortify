@@ -1,4 +1,4 @@
-import LinkIcon from "../utils/icons/LinkIcon";
+import LinkIcon from "../UtilComponents/icons/LinkIcon";
 
 const WelcomeTexts = ({ user }) => {
   return (

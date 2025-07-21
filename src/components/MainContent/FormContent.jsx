@@ -8,7 +8,7 @@ const FormContent = ({
   handleSubmit,
   shortUrl,
   handleCopyToClipboard,
-  onSignInClick
+  onSignInClick,
 }) => {
   return (
     <div className="space-y-4">
@@ -21,10 +21,7 @@ const FormContent = ({
         handleCopyToClipboard={handleCopyToClipboard}
       />
 
-      <AnonymousUserInfo 
-        isAnonymous={!user}
-        onSignInClick={onSignInClick} 
-      />
+      <AnonymousUserInfo isAnonymous={!user} onSignInClick={onSignInClick} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ const AuthHandler = ({
     localStorage.setItem("userToken", res.credential);
     localStorage.setItem("tokenExpiration", Date.now() + 24 * 60 * 60 * 1000);
     fetchUserUrls(profile.sub, setUserUrls, setNotification);
-    
+
     if (onSuccess) {
       onSuccess();
     }
