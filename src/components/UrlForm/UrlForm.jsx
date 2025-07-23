@@ -42,16 +42,14 @@ const UrlForm = ({
     setIsSubmitting(true);
     await handleSubmit(e, useCustomUrl ? customUrl : null);
     setIsSubmitting(false);
-    
+
     // Reset custom URL state after successful submission
     setUseCustomUrl(false);
     setCustomUrl("");
     setCustomUrlStatus("");
   };
 
-  const isFormDisabled =
-    isSubmitting ||
-    (useCustomUrl && !customUrl.trim()) ||
+  const isFormDisabled = (useCustomUrl && !customUrl.trim()) ||
     (customUrlStatus && !customUrlStatus.includes("Available"));
 
   return (
