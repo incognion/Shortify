@@ -11,7 +11,7 @@ const LongUrl = ({ urlValue, onUrlChange, isSubmitting, isFormDisabled }) => {
         onChange={onUrlChange}
         placeholder="https://your-long-url.com/page"
         required
-        disabled={isSubmitting}
+        disabled={isFormDisabled}
         className="flex-1 px-4 py-3 border border-gray-300 rounded-lg
                    focus:outline-none focus:ring-1 focus:ring-indigo-500
                    focus:border-transparent text-sm"
@@ -20,7 +20,7 @@ const LongUrl = ({ urlValue, onUrlChange, isSubmitting, isFormDisabled }) => {
       {/* SUBMIT BUTTON */}
       <button
         type="submit"
-        disabled={isSubmitting || isFormDisabled}
+        disabled={isFormDisabled}
         className="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white rounded-lg
                    hover:bg-indigo-700 focus:outline-none
                    disabled:opacity-50 disabled:cursor-not-allowed

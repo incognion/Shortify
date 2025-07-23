@@ -4,7 +4,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Header from "./components/Header/Header";
 import FormContent from "./components/MainContent/FormContent";
 import UserUrlsSection from "./components/MainContent/UserUrlsSection";
-import AuthModal from "./components/Auth/AuthModal";
+import SignInModal from "./components/Auth/SignInModal";
+import SignOutModal from "./components/Auth/SignOutModal";
 import Notification from "./components/UtilComponents/Notification";
 import Loader from "./components/UtilComponents/Loader";
 
@@ -19,7 +20,8 @@ const App = () => {
   const [shortUrl, setShortUrl] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
 
   const { notification, setNotification } = useNotification();
   const { user, setUser, userUrls, setUserUrls, loading } =
@@ -67,8 +69,12 @@ const App = () => {
       );
   };
 
-  const handleSignInClick = () => setShowAuthModal(true);
-  const handleCloseAuthModal = () => setShowAuthModal(false);
+  // Modal handlers
+  const handleSignInClick = () => setShowSignInModal(true);
+  const handleCloseSignInModal = () => setShowSignInModal(false);
+  
+  const handleSignOutClick = () => setShowSignOutModal(true);
+  const handleCloseSignOutModal = () => setShowSignOutModal(false);
 
   // Pagination logic
   const indexOfLastUrl = currentPage * itemsPerPage;
@@ -80,11 +86,8 @@ const App = () => {
       <div className="min-h-screen bg-gray-50">
         <Header
           user={user}
-          setUser={setUser}
-          setUserUrls={setUserUrls}
-          setShortUrl={setShortUrl}
           onSignInClick={handleSignInClick}
-          setNotification={setNotification}
+          onSignOutClick={handleSignOutClick}
         />
 
         <main className="max-w-2xl mx-auto px-4 py-6">
@@ -119,13 +122,23 @@ const App = () => {
           )}
         </main>
 
-        <AuthModal
-          showAuthModal={showAuthModal}
-          onCloseAuthModal={handleCloseAuthModal}
+        {/* Auth Modals */}
+        <SignInModal
+          isOpen={showSignInModal}
+          onClose={handleCloseSignInModal}
           user={user}
           setUser={setUser}
           setUserUrls={setUserUrls}
           fetchUserUrls={fetchUserUrls}
+          setShortUrl={setShortUrl}
+          setNotification={setNotification}
+        />
+
+        <SignOutModal
+          isOpen={showSignOutModal}
+          onClose={handleCloseSignOutModal}
+          setUser={setUser}
+          setUserUrls={setUserUrls}
           setShortUrl={setShortUrl}
           setNotification={setNotification}
         />

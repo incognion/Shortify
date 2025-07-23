@@ -5,7 +5,7 @@ const CustomUrlToggle = ({ checked, onChange, disabled = false }) => {
       <button
         type="button"
         onClick={() => !disabled && onChange({ target: { checked: !checked } })}
-        className={`relative inline-flex h-5 w-10 items-center rounded-full transition-colors ${
+        className={`relative inline-flex h-6 w-10 items-center rounded-full transition-colors ${
           checked ? "bg-indigo-600" : "bg-gray-300"
         } ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
         aria-pressed={checked}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import WelcomeTexts from "./WelcomeTexts";
 import LongUrl from "./LongUrl";
@@ -21,6 +21,13 @@ const UrlForm = ({
 
   const isAnonymous = !user;
 
+  // Reset custom URL state when user authentication changes
+  useEffect(() => {
+    setUseCustomUrl(false);
+    setCustomUrl("");
+    setCustomUrlStatus("");
+  }, [user?.sub]);
+
   const handleCustomUrlToggle = (e) => {
     const checked = e.target.checked;
     setUseCustomUrl(checked);
@@ -35,8 +42,8 @@ const UrlForm = ({
     setIsSubmitting(true);
     await handleSubmit(e, useCustomUrl ? customUrl : null);
     setIsSubmitting(false);
-
-    // Reset custom URL fields after successful submission
+    
+    // Reset custom URL state after successful submission
     setUseCustomUrl(false);
     setCustomUrl("");
     setCustomUrlStatus("");
@@ -49,11 +56,9 @@ const UrlForm = ({
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
-      {/* Anonymous User Info Banner */}
       <WelcomeTexts user={user} />
 
       <form onSubmit={onSubmit} className="space-y-4">
-        {/* Main Long URL Input and Submit Button */}
         <LongUrl
           urlValue={originalUrl}
           onUrlChange={(e) => setOriginalUrl(e.target.value)}
@@ -81,7 +86,6 @@ const UrlForm = ({
         )}
       </form>
 
-      {/* Result Display */}
       <ResultDisplay
         shortUrl={shortUrl}
         onCopy={handleCopyToClipboard}
